@@ -1,12 +1,19 @@
 let gameSafeBounds = 50;
+let debugMode = true;
+
+let gameTimeScale = 1;
 
 class GameObject
   {
-    constructor(x,y,rad,spr)
+    constructor(x,y,rad,spr,parentList)
     {
 
       this.x = x;
       this.y = y;
+
+      
+      this.parentList = parentList;
+      // this.markForDeath = false;
 
       this.collisionForce = 0.1;
       this.outOfBoundsForce = 0.2;
@@ -70,7 +77,7 @@ class GameObject
               if(distTo 
                  < (this.rad + otherBodies[i].rad))
               {
-                collisionWith(otherBodies[i])
+                this.collisionWith(otherBodies[i])
               }
             }
           }
@@ -79,11 +86,12 @@ class GameObject
     collisionWith(object)
     {
       //Debug
-      // stroke('red')
-      // strokeWeight(5);
-
-      // line(this.x, this.y, otherBodies[i].x, otherBodies[i].y)
-
+      if(debugMode)
+      {
+        stroke('red')
+        strokeWeight(5);
+        line(this.x, this.y, object.x, object.y)
+      }
       // stroke(0)
       // strokeWeight(1);
       // textSize(10)
@@ -93,7 +101,7 @@ class GameObject
        // console.log(distTo)
       // console.log("collide!")
 
-      let differenceVector = this.position().sub(otherBodies[i].position());
+      let differenceVector = this.position().sub(object.position());
        // console.log(differenceVector)
 
       // console.log(differenceVector.x, " ", differenceVector.y);
@@ -124,19 +132,48 @@ class GameObject
       this.draw();
     }
 
-    
+    destroy()
+    {
+      console.log("Im trying to die!")
+      if(this.parentList)
+      {
+      for(let i = 0; i < this.parentList.length; i++)
+        {
+          if(this.parentList[i] == this)
+          {
+            console.log("I am dead!")
+            this.parentList.splice(i,1);
+          }
+        }
+      }
+      else{
+        // console.log("Parentlist undefined!")
+      }
+    }
 
 
     
   }
 
-gameTimeScale = 1;
+
 
 function gameDelta()
 {
   return deltaTime * gameTimeScale
+
+  
 }
 
+function vectorFromTo(originObject, destinationObject)
+{
+  if(originObject && destinationObject)
+  {
+  let vec = createVector(destinationObject.x - originObject.x, destinationObject.y - originObject.y);
+  
+  return vec;
+  }
+  return createVector(0,0);
+}
 
 // function calcDist(x1,y1,x2,y2)
 // {
@@ -148,19 +185,25 @@ function gameDelta()
 //helper function: find the closest object in a list to the target.
 function findClosestToMe(GameObject, list)
 {
-  let closestIndex;
-  let closestDist;
+  // console.log(GameObject);
+  // console.log(list);
+
+  let closestIndex = 0;
+  let closestDist = 10000;
   for(let i = 0; i < list.length; i++)
     {
-
+      if(GameObject != list[i])
+      {
       //add offset to list element for mroe randomization+ choose not same targets as friendlies.
-      let dist = calcDist(GameObject.x, GameObject.y, list[i].x, list[i].y);
-      if(dist < closestDist)
+      let d = dist(GameObject.x, GameObject.y, list[i].x, list[i].y);
+      if(d < closestDist)
       {
         closestIndex = i;
-        closestDist = dist;
+        closestDist = d;
+      }
       }
     }
 
+  // console.log("FOund:"+list[closestIndex])
   return list[closestIndex];
 }

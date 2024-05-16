@@ -1,5 +1,6 @@
-let gameSafeBounds = 50;
-let debugMode = true;
+let worldBounds = 1000;
+let worldSafeZone = 100;
+let debugMode = false;
 
 let gameTimeScale = 1;
 
@@ -27,7 +28,16 @@ class GameObject
       this.vx = 0;
       this.vy = 0;
       this.dragCoef = 0.95;
+
+      
+
+      // this.persistentSprite = new Sprite(this.x,this.y);
+      // this.persistentSprite.img = spr;
+      // this.persistentSprite.diameter = 1;
+    
     }
+
+    
 
     position()
     {
@@ -39,31 +49,41 @@ class GameObject
       // console.log("frog sprite is"+this.spr)
       imageMode(CENTER);
       // console.log(this.x)
+
+      // console.log("code cganege!!!")
+
+      let w = this.rad*2;
+      let ratio = w/this.spr.width
+      let h = this.spr.height * ratio;
       
-      image(this.spr, this.x, this.y, this.rad*2,(this.rad*2)* 0.8);
+      image(this.spr, this.x, this.y, w,h);
+
+      // this.persistentSprite.x = this.x;
+      // this.persistentSprite.y = this.y;
+
       // circle(this.x, this.y, this.rad*2) 
     }  
 
     collide(otherBodies)
     {
-        if(this.x > (width - gameSafeBounds))
-        {
-          this.applyForce(-this.outOfBoundsForce,0)
-        }
+      if(this.x > worldBounds + worldSafeZone)
+      {
+        this.applyForce(-this.outOfBoundsForce,0)
+      }
 
-      else if(this.x < gameSafeBounds)
+      else if(this.x < -worldBounds - worldSafeZone)
       {
         this.applyForce(this.outOfBoundsForce,0)
       }
 
-      if(this.y > (height - gameSafeBounds))
+      if(this.y < (-worldBounds - worldSafeZone))
       {
-        this.applyForce(0,-this.outOfBoundsForce)
+        this.applyForce(0,this.outOfBoundsForce)
       }
 
-      else if(this.y < gameSafeBounds)
+      else if(this.y > worldBounds + worldSafeZone)
       {
-        this.applyForce(0, this.outOfBoundsForce)
+        this.applyForce(0, -this.outOfBoundsForce)
       }
       
         for(let i = 0; i < otherBodies.length; i++)

@@ -5,32 +5,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>CS20AP Full Credit Project</title>
-    <style>
-        body {
-            background-color: #95f564 ;
-        }
-    </style>
+  <style>
+    body {
+      background-color: #c5f0af;
+    }
+  </style>
+  <style href="style.css"></style>
 </head>
 
 <body>
 
-        <div id="topdiv">
+  <div id="topdiv">
 
-        <h1>Your Project Title </h1>
-            <h2>CS20AP Full Credit Project - By Your Name</h2>
+    <!-- <h1>Frog Simulator</h1> -->
+    <img src="./images/TitleSmall.png"></img>
+    <h2>CS20AP Full Credit Project - Zev Johnston</h2>
 
-            <p><a href="home.html">Launch Project Here</a> </p>
-        </div>
+    <p><a href="home.html" style="font-size:30px; background-color: white; padding: 20px; border-radius: 15px; border: 5px solid black; margin-top:40px; margin-bottom:40px;">Start</a> </p>
+    <!-- <button onclick="window.location.href='home.html">Start</button> -->
+  </div>
 
-        <div id="maincontent">
-            <h3>About the Project</h3>
-            <p>Describe project here</p>
+  <div id="maincontent">
+    <h3>About the Project</h3>
+    <p>Frog Simulator is an experiment in emergent behaviour. I am very interested in the idea of 'simple rules lead to
+      complex behaviour', as seen in <a href=https://playgameoflife.com />Conway's game of life</a>, and in <a
+        href="https://www.ventrella.com/Clusters/"> particle life.</a> It was fun making this project and trying out
+      really basic AI systems. The mechanics which steer the frogs: Each frog has desires. A desire is a vector which points towards a goal and whose length represents the strength of that desire. These desires are added together and normalized (average desire direction) to find what the frog's next movement will be. Desires include: desire to eat (hunger), desire to breed, and desire to fight. Frog hunger drains over time, which makes their desire to pursue food greater over time. Their desire to breed will also grow, and when high enough, they will move towards frogs of the same species and will breed (if they are not too hungry). Their desire to fight is based on a stat assigned at birth called courage. Courage determines how much a frog wants to fight other frog species. The desire to fight has a much higher distance rolloff, meaning that the desire to fight will only be high if an enem frog is right beside them. <br><br> Enjoy watching the frogs go about their lives!</p>
 
-            <h3>Instructions for Users</h3>
-            <p>Enter instructions here unless provided in-game</p>
+    <h3>Instructions for Users</h3>
+    <p>The simulation isn't really a game, but more just something to watch. It can be fun to take bets on a specific
+      species with friends, though!
+      <br> <br>
+    <h2>Controls</h2>
+      WASD to pan the camera through the world, and scroll wheel to zoom. You can use R to reset the simulation, and
+      left click to place mushrooms. You can press shift+~ to see a debug mode which has the frogs' different desires
+      represented by lines (blue: food, pink: breeding, red: fighting target, orange: randomness to make it more spicy).
+    </p>
 
 
-        </div>
+  </div>
 
 
 </body>
